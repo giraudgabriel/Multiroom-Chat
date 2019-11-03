@@ -1,8 +1,5 @@
 # Multiroom Chat 
 desenvolvido no curso https://www.udemy.com/course/curso-completo-do-desenvolvedor-nodejs/
-
-# Tecnologias utilizadas:
-<br>
 - NodeJs
 - Socket.io
 - EJS
