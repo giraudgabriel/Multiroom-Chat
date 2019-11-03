@@ -14,4 +14,29 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         console.log('Usuário desconectou')
     })
+
+    socket.on('msgParaServidor', (data) => {
+
+        //dialogo
+        socket.emit('msgParaCliente', {
+            apelido: data.apelido,
+            mensagem: data.mensagem
+        })
+        socket.broadcast.emit('msgParaCliente', {
+            apelido: data.apelido,
+            mensagem: data.mensagem
+        })
+
+        if (data.existeParticipante == 0) {
+            //participantes
+            socket.emit('participantesParaCliente', {
+                apelido: data.apelido
+            })
+
+            socket.broadcast.emit('participantesParaCliente', {
+                apelido: data.apelido
+            })
+        }
+
+    })
 })

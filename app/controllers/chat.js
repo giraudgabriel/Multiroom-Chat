@@ -20,5 +20,7 @@ module.exports.iniciaChat = (application, req, res) => {
         mensagem: ` acabou de entrar no chat`
     })
 
-    res.render("chat")
+    res.render("chat", {
+        dados: dados
+    })
 }
