@@ -6,6 +6,7 @@ const server = app.listen(80, () => {
 
 const io = require('socket.io').listen(server)
 
+app.set('io', io)
 
 io.on('connection', (socket) => {
     console.log('Usuário conectou')
