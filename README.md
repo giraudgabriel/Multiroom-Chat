@@ -39,7 +39,7 @@ desenvolvido no curso https://www.udemy.com/course/curso-completo-do-desenvolved
 <img src="images/incio.png">
 
 # Validação dos dados
-<img src="images/validacao.png">
+<img src="images/valida.png">
 
 # Chat quando alguém entra
 <img src="images/chat.png">
