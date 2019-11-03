@@ -47,9 +47,9 @@
                             <div class="alert alert-danger">
                                 <strong>Anteção!</strong>
                                 <ul>
-                                    <% validacao.forEach(v=>{  %>
-                                    <li><%= v.msg %></li>
-                                    <%}) %>
+                                    <% for (let index = 0; index < validacao.length; index++) { %>
+                                    <li><%= validacao[index].msg %></li>
+                                    <% } %>
                                 </ul>
                             </div>
                         </div>
