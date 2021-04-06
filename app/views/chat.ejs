@@ -141,10 +141,10 @@
 		socket.on('participantesParaCliente', (data) => {
 
 			const items = data.map(c => {
-				let html = '<span class="participante">'
+				let html = '<li class="participante">'
 				html += '<img src="images/ico_usuario.png">'
-				html += `${c.apelido}`
-				html += '</span>'
+				html += `<strong>${c.apelido}</strong>`
+				html += '</li>'
 				return html;
 			})
 

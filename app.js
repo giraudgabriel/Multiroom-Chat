@@ -11,12 +11,14 @@ app.set("io", io);
 let clients = [];
 
 io.on("connection", (socket) => {
-  console.log("Usuário conectou");
+  const { id } = socket.client.conn;
 
-  console.log(clients);
+  console.log(`${id} conectou-se ao socket`);
+
   socket.on("disconnect", () => {
-    console.log("Usuário desconectou");
-    clients = clients.filter((c) => c.id != socket.client.conn.id);
+    const client = clients.find((c) => c.id == id);
+    console.log(`${client.apelido} desconectou-se`);
+    clients = clients.filter((c) => c.id != id);
     socket.broadcast.emit("participantesParaCliente", clients);
   });
 
@@ -27,13 +29,16 @@ io.on("connection", (socket) => {
       apelido,
       mensagem,
     });
+
+    //send to all
     socket.broadcast.emit("msgParaCliente", {
       apelido,
       mensagem,
     });
 
     if (data.existeParticipante == 0) {
-      clients.push({ id: socket.client.conn.id, apelido });
+      clients.push({ id, apelido });
+      console.log(`${apelido} conectou-se ao chat`);
 
       //participantes
       socket.emit("participantesParaCliente", clients);
