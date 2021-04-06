@@ -1,3 +1,7 @@
-module.exports = (application) => {
-    application.get('/', (req, res) => application.app.controllers.index.home(application, req, res))
-}
+const homeRoutes = (router) => {
+  router.get("/", (req, res) =>
+    router.app.controllers.index.home(router, req, res)
+  );
+};
+
+module.exports = homeRoutes;

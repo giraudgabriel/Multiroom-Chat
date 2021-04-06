@@ -112,7 +112,7 @@
 	</script>
 	<script src="/socket.io/socket.io.js"></script>
 	<script>
-		var socket = io('http://localhost')
+		const socket = io('http://localhost')
 
 		$('#enviar_mensagem').click(() => {
 			if ($('#mensagem').val().length > 0) {
@@ -140,12 +140,15 @@
 
 		socket.on('participantesParaCliente', (data) => {
 
-			var html = '<span class="participante">'
-			html += '<img src="images/ico_usuario.png">'
-			html += `${data.apelido}`
-			html += '</span>'
+			const items = data.map(c => {
+				let html = '<span class="participante">'
+				html += '<img src="images/ico_usuario.png">'
+				html += `${c.apelido}`
+				html += '</span>'
+				return html;
+			})
 
-			$('#pessoas').append(html)
+			$('#pessoas').html(items)
 
 		})
 	</script>

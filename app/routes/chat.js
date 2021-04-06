@@ -1,5 +1,11 @@
-module.exports = (application) => {
-    application.get('/chat', (req, res) => application.app.controllers.chat.iniciaChat(application, req, res))
+const chatRoutes = (router) => {
+  router.get("/chat", (req, res) =>
+    router.app.controllers.chat.iniciaChat(router, req, res)
+  );
 
-    application.post('/chat', (req, res) => application.app.controllers.chat.iniciaChat(application, req, res))
-}
+  router.post("/chat", (req, res) =>
+    router.app.controllers.chat.iniciaChat(router, req, res)
+  );
+};
+
+module.exports = chatRoutes;

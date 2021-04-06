@@ -1,26 +1,31 @@
-module.exports.iniciaChat = (application, req, res) => {
+const iniciaChat = (application, req, res) => {
+  let dados = req.body;
 
-    let dados = req.body;
+  const { apelido } = dados;
 
-    req.assert('apelido', 'Nome ou apelido é obrigatório').notEmpty()
-    req.assert('apelido', 'Nome ou apelido deve conter entre 3 e 15 caracteres').len(3, 15)
+  req.assert("apelido", "Nome ou apelido é obrigatório").notEmpty();
+  req
+    .assert("apelido", "Nome ou apelido deve conter entre 3 e 15 caracteres")
+    .len(3, 15);
 
-    let erros = req.validationErrors()
+  let erros = req.validationErrors();
 
-    if (erros) {
-        res.render("index", {
-            validacao: erros,
-            apelido: dados.apelido
-        })
-        return
-    }
+  if (erros) {
+    res.render("index", {
+      validacao: erros,
+      apelido,
+    });
+    return;
+  }
 
-    application.get('io').emit('msgParaCliente', {
-        apelido: dados.apelido,
-        mensagem: ` acabou de entrar no chat`
-    })
+  application.get("io").emit("msgParaCliente", {
+    apelido,
+    mensagem: ` acabou de entrar no chat`,
+  });
 
-    res.render("chat", {
-        dados: dados
-    })
-}
+  res.render("chat", {
+    dados,
+  });
+};
+
+module.exports = { iniciaChat };

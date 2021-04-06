@@ -1,42 +1,44 @@
-const app = require('./config/server')
+const app = require("./config/server");
 
 const server = app.listen(80, () => {
-    console.log('Servidor Online')
-})
+  console.log("Servidor Online");
+});
 
-const io = require('socket.io').listen(server)
+const io = require("socket.io").listen(server);
 
-app.set('io', io)
+app.set("io", io);
 
-io.on('connection', (socket) => {
-    console.log('Usuário conectou')
+let clients = [];
 
-    socket.on('disconnect', () => {
-        console.log('Usuário desconectou')
-    })
+io.on("connection", (socket) => {
+  console.log("Usuário conectou");
 
-    socket.on('msgParaServidor', (data) => {
+  console.log(clients);
+  socket.on("disconnect", () => {
+    console.log("Usuário desconectou");
+    clients = clients.filter((c) => c.id != socket.client.conn.id);
+    socket.broadcast.emit("participantesParaCliente", clients);
+  });
 
-        //dialogo
-        socket.emit('msgParaCliente', {
-            apelido: data.apelido,
-            mensagem: data.mensagem
-        })
-        socket.broadcast.emit('msgParaCliente', {
-            apelido: data.apelido,
-            mensagem: data.mensagem
-        })
+  socket.on("msgParaServidor", (data) => {
+    const { apelido, mensagem } = data;
+    //dialogo
+    socket.emit("msgParaCliente", {
+      apelido,
+      mensagem,
+    });
+    socket.broadcast.emit("msgParaCliente", {
+      apelido,
+      mensagem,
+    });
 
-        if (data.existeParticipante == 0) {
-            //participantes
-            socket.emit('participantesParaCliente', {
-                apelido: data.apelido
-            })
+    if (data.existeParticipante == 0) {
+      clients.push({ id: socket.client.conn.id, apelido });
 
-            socket.broadcast.emit('participantesParaCliente', {
-                apelido: data.apelido
-            })
-        }
+      //participantes
+      socket.emit("participantesParaCliente", clients);
 
-    })
-})
+      socket.broadcast.emit("participantesParaCliente", clients);
+    }
+  });
+});
